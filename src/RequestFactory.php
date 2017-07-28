@@ -30,7 +30,7 @@ class RequestFactory
         return $this->createByClass(
             Payment\Request::class,
             $configuration,
-            $amount,
+	        number_format($amount, 2, '.', ''),
             $reference,
             $email,
             $description,

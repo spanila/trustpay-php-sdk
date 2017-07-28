@@ -56,21 +56,25 @@ class Request implements RequestInterface
      */
     protected function buildQuery()
     {
-        $message = $this->signatureValidator->createMessage(
-            $this->accountId,
-            $this->amount,
-            $this->currency,
-            $this->reference,
-            CardTransactionType::REFUND,
-            $this->transactionId
-        );
+	    $message = $this->signatureValidator->createMessage(
+		    $this->accountId,
+		    $this->amount,
+		    $this->currency,
+		    $this->reference,
+		    CardTransactionType::REFUND,
+		    $this->transactionId
+	    );
 
-        $queryData = [
-            'CTY'        => CardTransactionType::REFUND,
-            'CardTranID' => $this->transactionId,
-            'SIG2'       => $this->signatureValidator->computeSignature($message),
-            'SIG'        => $this->createStandardSignature(),
-        ];
+	    $queryData = [
+		    'AID'        => $this->accountId,
+		    'AMT'        => $this->amount,
+		    'CUR'        => $this->currency,
+		    'REF'        => $this->reference,
+		    'SIG'        => $this->createStandardSignature(),
+		    'CTY'        => CardTransactionType::REFUND,
+		    'TID' => $this->transactionId,
+		    'SIG2'       => $this->signatureValidator->computeSignature($message),
+	    ];
 
         $queryData = array_filter($queryData, function ($value) {
             return $value !== null;
