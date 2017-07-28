@@ -143,7 +143,7 @@ class TrustPay
      * @param null $description
      * @param null $currency
      *
-     * @return Response
+     * @return string
      * @throws InvalidInputArguments
      */
     public function paymentWithStoredCard(
@@ -157,7 +157,7 @@ class TrustPay
 
         $this->assertConfiguration();
 
-        $this->configuration->setPaymentType(Configuration::PAYMENT_TYPE_CARD_EXTENSION);
+        $this->configuration->setPaymentType(Configuration::PAYMENT_TYPE_CARD);
 
         $request = $this->requestFactory->createCardOnFile(
             $this->configuration,

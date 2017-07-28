@@ -37,20 +37,20 @@ class Request implements RequestInterface
     /**
      * @param $storedCardToken
      *
-     * @return Response
+     * @return string
      */
     public function payment($storedCardToken)
     {
         $this->storedCardToken = $storedCardToken;
 
         $requestUrl = $this->getUrl();
-
-        $response = $this->httpClient->get($requestUrl);
-
-        $response = $this->parseBackgroundResponse($response);
-        $response->setRequestedUrl($requestUrl);
-
-        return $response;
+	    return $requestUrl;
+//        $response = $this->httpClient->get($requestUrl);
+//
+//        $response = $this->parseBackgroundResponse($response);
+//        $response->setRequestedUrl($requestUrl);
+//
+//        return $response;
     }
 
     /**
@@ -88,14 +88,12 @@ class Request implements RequestInterface
             $this->currency,
             $this->reference,
             CardTransactionType::CARD_ON_FILE,
-            $card['CardID'],
-            $card['CardExp']
+            $card['CardID']
         );
 
         $queryData = [
             'CTY'     => CardTransactionType::CARD_ON_FILE,
             'CardID'  => $card['CardID'],
-            'CardExp' => $card['CardExp'],
             'SIG2'    => $this->signatureValidator->computeSignature($message),
         ];
 
